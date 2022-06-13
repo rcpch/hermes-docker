@@ -1,4 +1,4 @@
-ARG ${{ secrets.TRUD_KEY }}
+ARG TRUD_KEY=${{ secrets.TRUD_KEY }}
 ARG hermes=v0.12.684
 ARG release_date=2022-05-18
 
@@ -11,12 +11,12 @@ WORKDIR /usr/src/hermes
 RUN clojure -T:build uber :out '"hermes.jar"'
 
 FROM amazoncorretto:11-alpine-jdk as download
-ARG trud_api_key
+ARG TRUD_KEY
 ARG release_date
 COPY --from=build /usr/src/hermes/hermes.jar /hermes.jar
 RUN mkdir /cache && \
     echo "Downloading UK release ${release_date}" && \
-    echo ${trud_api_key} >api-key.txt && \
+    echo ${TRUD_KEY} >api-key.txt && \
     java -jar /hermes.jar --db /snomed.db download uk.nhs/sct-clinical cache-dir /cache api-key api-key.txt release-date ${release_date} && \
     java -jar /hermes.jar --db /snomed.db download uk.nhs/sct-drug-ext cache-dir /cache api-key api-key.txt release-date ${release_date}
 
