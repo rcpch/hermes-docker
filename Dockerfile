@@ -1,4 +1,4 @@
-ARG TRUD_KEY=${{ secrets.TRUD_KEY }}
+ARG TRUD_KEY
 ARG hermes=v0.12.684
 ARG release_date=2022-05-18
 
