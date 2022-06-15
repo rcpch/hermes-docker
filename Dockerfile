@@ -16,7 +16,7 @@ ARG release_date
 COPY --from=build /usr/src/hermes/hermes.jar /hermes.jar
 RUN mkdir /cache && \
     echo "Downloading UK release ${release_date}" && \
-    echo ${TRUD_KEY} >api-key.txt && \
+    echo ${TRUD_KEY} >> api-key.txt && \
     java -jar /hermes.jar --db /snomed.db download uk.nhs/sct-clinical cache-dir /cache api-key api-key.txt release-date ${release_date} && \
     java -jar /hermes.jar --db /snomed.db download uk.nhs/sct-drug-ext cache-dir /cache api-key api-key.txt release-date ${release_date}
 
